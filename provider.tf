@@ -3,6 +3,16 @@ provider "aws" {
   profile = var.profile_name
 }
 
+terraform {
+  backend "s3" {
+    encrypt = true
+    bucket = "project-terraform-remote-state-ca-central-1-dev"
+    key    = "project/security/terraform.tfstate"
+    region = "ca-central-1"
+  }
+}
+
+
 resource "aws_s3_bucket" "terraform_remote_state" {
-  bucket  = var.bucket_name
+  bucket = var.bucket_name
 }
