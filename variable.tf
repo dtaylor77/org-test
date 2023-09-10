@@ -12,6 +12,9 @@ variable "bucket_name" {
   description = "The name of the new environment specific bucket to be created"
 }
 
+variable "bucket_name_storage" {
+  description = "The name of the new environment specific bucket to be created"
+}
 
 variable "profile_name" {
   description = "The profile_name where remote state file will get created"
@@ -23,4 +26,8 @@ variable "region" {
 
 variable "environment" {
   description = "The environment (dev/staging/prod)"
+}
+
+variable "key" {
+  description = "tf state bucket key"
 }
