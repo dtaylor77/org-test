@@ -4,7 +4,7 @@ locals {
   account_id = data.aws_caller_identity.current.account_id
   github_repositories = [
     # Only add production repos here
-    "ORG-TEST"
+    "org-test"
   ]
 }
 
