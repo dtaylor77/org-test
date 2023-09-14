@@ -9,8 +9,13 @@ locals {
 }
 
 locals {
-  oidc_sub_repositories = formatlist("repo:dtaylor77/%s", local.github_repositories, *)
+  oidc_sub_repositories = formatlist("repo:dtaylor77/%s", local.github_repositories)
 }
+
+#locals {
+#  oidc_sub_repositories = [for repo in local.github_repositories : "repo:dtaylor77/${repo}:*"]
+#}
+
 
 # create github oidc provider
 # resource "aws_iam_openid_connect_provider" "github_actions" {
