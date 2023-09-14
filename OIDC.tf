@@ -9,7 +9,7 @@ locals {
 }
 
 locals {
-  oidc_sub_repositories = formatlist("repo:dtaylor77/%s:environment:%s", local.github_repositories, upper(var.environment))
+  oidc_sub_repositories = formatlist("repo:dtaylor77/%s:environment:%s", local.github_repositories, *)
 }
 
 # create github oidc provider
