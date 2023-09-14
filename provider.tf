@@ -8,7 +8,7 @@ terraform {
     encrypt = true
     bucket = "project-terraform-remote-state-us-east-1-dev"
     key    = "project/security/terraform.tfstate"
-    region = "ca-central-1"
+    region = "us-east-1"
   }
 }
 
