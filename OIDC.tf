@@ -9,7 +9,7 @@ locals {
 }
 
 locals {
-  oidc_sub_repositories = formatlist("repo:dtaylor77/%s", local.github_repositories)
+  oidc_sub_repositories = formatlist("repo:dtaylor77/%s:*", local.github_repositories)
 }
 
 #locals {
