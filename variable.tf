@@ -8,6 +8,10 @@ variable "account_name" {
   default = "dhaval3"
 }
 
+variable "vpc_id" {
+  description = "The ID of the VPC
+}
+
 variable "bucket_name" {
   description = "The name of the new environment specific bucket to be created"
 }
