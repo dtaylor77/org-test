@@ -7,13 +7,13 @@ on:
   push:
     branches:
       - main
-jobs:
-  terraform:
-    name: Terraform plan & apply
-    runs-on: ubuntu-latest
-    environment: DEV
-    env:
-      TF_VAR_CI: "true"
+# jobs:
+#   terraform:
+#     name: Terraform plan & apply
+#     runs-on: ubuntu-latest
+#     environment: DEV
+#     env:
+#       TF_VAR_CI: "true"
 permissions:
       id-token: write # This is required for aws oidc connection
       contents: read # This is required for actions/checkout
@@ -21,7 +21,6 @@ permissions:
 env:
   TF_LOG: INFO
   AWS_REGION: ${{ secrets.AWS_REGION }}
-  
 jobs:
   deploy:
     runs-on: ubuntu-latest
