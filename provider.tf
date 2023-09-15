@@ -6,13 +6,13 @@ provider "aws" {
 terraform {
   backend "s3" {
     encrypt = true
-    bucket = "project-terraform-remote-state-us-east-1-dev"
-    key    = "project/security/terraform.tfstate"
+    bucket = "dhaval-aquanow-test-tf-state-file-bucket"
+    key    = "security/terraform.tfstate"
     region = "us-east-1"
   }
 }
 
 
-resource "aws_s3_bucket" "terraform_remote_state" {
-  bucket = var.bucket_name
-}
+#resource "aws_s3_bucket" "terraform_remote_state" {
+#  bucket = var.bucket_name
+#}
