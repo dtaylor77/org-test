@@ -9,7 +9,7 @@ variable "account_name" {
 }
 
 variable "vpc_id" {
-  description = "The ID of the VPC
+  description = "The ID of the VPC"
 }
 
 variable "bucket_name" {
