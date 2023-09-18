@@ -1,19 +1,17 @@
-name: Aquaservice DEV pipeline
+name: Aquaservices Infra DEV
+
 on:
   pull_request:
     branches:
-      - main
+      - develop
   push:
     branches:
-      - main
+      - develop
 jobs:
   terraform:
     name: Terraform plan & apply
     runs-on: ubuntu-latest
     environment: DEV
-   # env:
-    #  DEPLOY_ENV: DEV
-     # TF_VAR_CI: "true"
 
     steps:
       - uses: hashicorp/setup-terraform@v1
@@ -43,23 +41,13 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE }}
           aws-region: ${{ secrets.AWS_REGION }}
           role-session-name: GitHub-OIDC-TERRAFORM
-       #   aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-       #   aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-       #   aws-region: us-east-1
 
-
-     # - name: Configure aws credential profile
-       # run: |
-       #   aws configure set default.region us-east-1
-       #   aws configure set default.aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
-       #   aws configure set default.aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  
-
-     #- run: aws configure list-profiles
+      - run: aws configure list-profiles
 
       - name: Terraform init
         id: init
-        run: terraform init
+        run: |
+          terraform init
 
       - name: Terraform validation
         id: validate
