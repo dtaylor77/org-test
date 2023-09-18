@@ -98,6 +98,11 @@ jobs:
         if: steps.plan.outcome == 'failure'
         run: exit 1
 
+      - name: tfsec
+        uses: aquasecurity/tfsec-pr-commenter-action@main
+        with:
+          github_token: ${{ github.token }}
+
       # - name: Terraform Destroy
       #   run: terraform destroy --var-file=dev.tfvars -auto-approve -input=false
       - name: Terraform Apply
