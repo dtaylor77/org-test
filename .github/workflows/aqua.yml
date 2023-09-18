@@ -1,4 +1,4 @@
-  name: Aquaservice DEV pipeline
+name: Aquaservice DEV pipeline
 
 on:
   pull_request:
