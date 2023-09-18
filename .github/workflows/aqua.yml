@@ -55,7 +55,7 @@ jobs:
        #   aws configure set default.aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   
 
-      - run: aws configure list-profiles
+     #- run: aws configure list-profiles
 
       - name: Terraform init
         id: init
