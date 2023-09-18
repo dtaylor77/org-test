@@ -1,4 +1,4 @@
-  name: Aquaservices DEV
+  name: Aquaservice DEV
 
 on:
   pull_request:
