@@ -1,5 +1,4 @@
 name: Aquaservice DEV pipeline
-
 on:
   pull_request:
     branches:
@@ -12,8 +11,8 @@ jobs:
     name: Terraform plan & apply
     runs-on: ubuntu-latest
     environment: DEV
-    env:
-      DEPLOY_ENV: DEV
+   # env:
+    #  DEPLOY_ENV: DEV
      # TF_VAR_CI: "true"
 
     steps:
