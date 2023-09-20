@@ -11,7 +11,7 @@ jobs:
   terraform:
     name: Terraform plan & apply
     runs-on: ubuntu-latest
-    environment: DEV
+   # environment: DEV
 
     steps:
       - uses: hashicorp/setup-terraform@v1
