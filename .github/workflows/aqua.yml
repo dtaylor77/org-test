@@ -14,19 +14,19 @@ jobs:
     environment: DEV
 
     steps:
-      - uses: hashicorp/setup-terraform@v1
-      - uses: actions/checkout@v2
+      # - uses: hashicorp/setup-terraform@v1
+      # - uses: actions/checkout@v2
 
-      - name: Config Terraform plugin cache
-        run: |
-          echo 'plugin_cache_dir="$HOME/.terraform.d/plugin-cache"' >~/.terraformrc
-          mkdir --parents ~/.terraform.d/plugin-cache
+      # - name: Config Terraform plugin cache
+      #   run: |
+      #     echo 'plugin_cache_dir="$HOME/.terraform.d/plugin-cache"' >~/.terraformrc
+      #     mkdir --parents ~/.terraform.d/plugin-cache
 
-      - name: Cache Terraform
-        uses: actions/cache@v2
-        with:
-          path: ~/.terraform.d/plugin-cache
-          key: ${{ runner.os }}-terraform-${{ hashFiles('.terraform.lock.hcl') }}
+      # - name: Cache Terraform
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: ~/.terraform.d/plugin-cache
+      #     key: ${{ runner.os }}-terraform-${{ hashFiles('.terraform.lock.hcl') }}
 
       - name: Verify Terraform version
         run: terraform --version
