@@ -1,14 +1,14 @@
 provider "aws" {
-  region  = var.region
-#  profile = var.aws_profile
+  region = var.region
+  #  profile = var.aws_profile
 }
 
 terraform {
   backend "s3" {
     encrypt = true
-    bucket = "dhaval-aquanow-test-tf-state-file-bucket"
-    key    = "security/terraform.tfstate"
-    region = "us-east-1"
+    bucket  = "dhaval-aquanow-test-tf-state-file-bucket"
+    key     = "security/terraform.tfstate"
+    region  = "us-east-1"
   }
 }
 

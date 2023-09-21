@@ -1,12 +1,15 @@
 name: Aquaservices Infra DEV
 
 on:
-  pull_request:
-    branches:
-      - main
   push:
     branches:
       - main
+  pull_request:
+permissions:
+      id-token: write # This is required for aws oidc connection
+      contents: read # This is required for actions/checkout
+      pull-requests: write # This is required for gh bot to comment PR
+
 jobs:
   terraform:
     name: Terraform plan & apply
@@ -40,7 +43,7 @@ jobs:
         with:
           role-to-assume: ${{ secrets.AWS_ROLE }}
           aws-region: ${{ secrets.AWS_REGION }}
-          role-session-name: GitHub-OIDC-TERRAFORM
+          role-session-name: GitHub-OIDC-TERRAFORM-SESSION
 
       - run: aws configure list-profiles
 
