@@ -61,7 +61,7 @@ jobs:
         run: terraform plan --var-file=dev.tfvars
 
       - uses: actions/github-script@0.9.0
-        if: github.ref != 'refs/heads/develop' && github.event_name == 'pull_request'
+        if: github.ref != 'refs/heads/main' && github.event_name == 'pull_request'
         env:
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
         with:
@@ -94,5 +94,5 @@ jobs:
         run: exit 1
 
       - name: Terraform apply
-        if: success() && github.ref == 'refs/heads/develop' && github.event_name == 'push'
+        if: success() && github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: terraform apply --var-file=dev.tfvars
