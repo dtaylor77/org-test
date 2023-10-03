@@ -17,8 +17,10 @@ resource "aws_wafv2_web_acl" "web_acl_cloudfront" {
 
     statement {
       managed_rule_group_statement {
-        name        = "AWSManagedRulesATPRuleSet"
+        name        = "AWSManagedRulesCommonRuleSet"
         vendor_name = "AWS"
+
+        managed_rule_group_configs {}
 
         rule_action_override {
           action_to_use {
