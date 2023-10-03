@@ -1,0 +1,96 @@
+name: Market Data Lambda AQ-X Pipeline
+
+permissions:
+  id-token: write # This is required for requesting the JWT
+  contents: read
+  checks: write
+  packages: read
+  statuses: write
+  
+env:
+  AWS_PROFILE: project-DEV
+  STAGE: DEV
+  REGION: us-east-1
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
+
+  workflow_dispatch:
+jobs:
+  deploy:
+    name: "Deploy artifacts"
+    runs-on: ubuntu-latest
+    environment: DEV
+    if: success() && github.ref == 'refs/heads/main'
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE }}
+          aws-region: ${{ env.REGION }}
+
+      - name: Add profile credentials to ~/.aws/credentials 
+        run: |
+            aws configure set region ${{ env.REGION }} --profile ${{ env.AWS_PROFILE }}
+            aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }} --profile ${{ env.AWS_PROFILE }}
+            aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }} --profile ${{ env.AWS_PROFILE }}
+
+      - run: aws configure list-profiles
+
+      - name: Terraform init
+        id: init
+        run: |
+          terraform init
+
+      - name: Terraform validation
+        id: validate
+        run: terraform validate -no-color
+
+      - name: Terraform plan
+        id: plan
+        run: terraform plan --var-file=dev.tfvars
+
+      - uses: actions/github-script@0.9.0
+        if: github.ref != 'refs/heads/main' && github.event_name == 'pull_request'
+        env:
+          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+            #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
+            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+            
+            <details><summary>Show Plan</summary>
+            
+            \`\`\`\n
+            ${process.env.PLAN}
+            \`\`\`
+            
+            </details>
+            
+            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Workflow: \`${{ github.workflow }}\`*`;
+              
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })
+
+      - name: Terraform Plan Status
+        if: steps.plan.outcome == 'failure'
+        run: exit 1
+
+      - name: Terraform apply
+        if: success() && github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: terraform apply --var-file=dev.tfvars --auto-approve            
