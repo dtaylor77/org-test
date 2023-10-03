@@ -20,7 +20,11 @@ resource "aws_wafv2_web_acl" "web_acl_cloudfront" {
         name        = "AWSManagedRulesCommonRuleSet"
         vendor_name = "AWS"
 
-        managed_rule_group_configs {}
+        managed_rule_group_configs {
+          aws_managed_rules_bot_control_rule_set-block {
+            inspection_level = "LOW"
+          }
+        }
 
         rule_action_override {
           action_to_use {
