@@ -9,7 +9,7 @@ permissions:
 
 env:
   AWS_PROFILE: reporting
-  STAGE: PROD
+  STAGE: DEV
   REGION: us-east-1  
 
 on:
@@ -25,7 +25,7 @@ jobs:
   terraform:
     name: Terraform plan & apply
     runs-on: ubuntu-latest
-    environment: PROD
+    environment: DEV
     env:
       TF_VAR_ios_platform_credential: ${{ secrets.IOS_PLATFORM_CREDENTIAL }}
       TF_VAR_ios_platform_principal: ${{ secrets.IOS_PLATFORM_PRINCIPAL }}
