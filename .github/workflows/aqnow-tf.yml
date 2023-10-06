@@ -59,10 +59,10 @@ jobs:
           aws-region: ${{ env.REGION }}
 
       - name: Configure aws credential profile for reporting
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          role-to-assume: ${{ secrets.AWS_ROLE_reporting }}
-          aws-region: ${{ env.REGION }}
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID_REPORTING }} --profile ${{ env.AWS_PROFILE }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY_REPORTING }} --profile ${{ env.AWS_PROFILE }
+          aws configure set reporting.region $ {{ env.REGION }}
 
       - run: aws configure list-profiles
 
