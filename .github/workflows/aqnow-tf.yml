@@ -1,0 +1,122 @@
+name: Aquanow Infrastructure DEV Pipeline
+
+permissions:
+  id-token: write # This is required for requesting the JWT
+  contents: read
+  checks: write
+  packages: read
+  statuses: write
+
+env:
+  AWS_PROFILE: reporting
+  STAGE: DEV
+  REGION: us-east-1  
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  terraform:
+    name: Terraform plan & apply
+    runs-on: ubuntu-latest
+    environment: DEV
+    env:
+      TF_VAR_ios_platform_credential: ${{ secrets.IOS_PLATFORM_CREDENTIAL }}
+      TF_VAR_ios_platform_principal: ${{ secrets.IOS_PLATFORM_PRINCIPAL }}
+
+    steps:
+      - uses: hashicorp/setup-terraform@v1
+      - uses: actions/checkout@v2
+
+      - name: Config Terraform plugin cache
+        run: |
+          echo 'plugin_cache_dir="$HOME/.terraform.d/plugin-cache"' >~/.terraformrc
+          mkdir --parents ~/.terraform.d/plugin-cache
+
+      - name: Cache Terraform
+        uses: actions/cache@v2
+        with:
+          path: ~/.terraform.d/plugin-cache
+          key: ${{ runner.os }}-terraform-${{ hashFiles('.terraform.lock.hcl') }}
+
+      - name: Verify Terraform version
+        run: terraform --version
+
+      - name: Terraform fmt
+        id: fmt
+        run: terraform fmt -check
+
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE }}
+          aws-region: ${{ env.REGION }}
+
+      - name: Configure aws credential profile
+        run: |
+          aws configure set default.region ${{ env.REGION }}
+          aws configure set default.aws_access_key_id ${{ env.AWS_ACCESS_KEY_ID }}
+          aws configure set default.aws_secret_access_key ${{ env.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Configure aws credential profile for reporting
+        run: |
+          aws configure set aws_access_key_id ${{ env.REPORTING_AWS_ACCESS_KEY_ID }} --profile ${{ env.AWS_PROFILE }}
+          aws configure set aws_secret_access_key ${{ env.REPORTING_AWS_SECRET_ACCESS_KEY }} --profile ${{ env.AWS_PROFILE }}
+          aws configure set reporting.region ${{ env.REGION }}
+
+      - run: aws configure list-profiles
+
+      - name: Terraform init
+        id: init
+        run: terraform init
+
+      - name: Terraform validation
+        id: validate
+        run: terraform validate -no-color
+
+      - name: Terraform plan
+        id: plan
+        run: terraform plan --var-file=dev.tfvars
+
+      - uses: actions/github-script@0.9.0
+        if: github.ref != 'refs/heads/main' && github.event_name == 'pull_request'
+        env:
+          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+            #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
+            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+            
+            <details><summary>Show Plan</summary>
+            
+            \`\`\`\n
+            ${process.env.PLAN}
+            \`\`\`
+            
+            </details>
+            
+            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Workflow: \`${{ github.workflow }}\`*`;
+              
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })
+
+      - name: Terraform Plan Status
+        if: steps.plan.outcome == 'failure'
+        run: exit 1
+       
+      - name: Terraform apply
+        if: success() && github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: terraform apply --var-file=dev.tfvars --auto-approve
