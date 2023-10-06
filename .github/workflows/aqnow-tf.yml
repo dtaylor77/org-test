@@ -26,9 +26,9 @@ jobs:
     name: Terraform plan & apply
     runs-on: ubuntu-latest
     environment: DEV
-    env:
-      TF_VAR_ios_platform_credential: ${{ secrets.IOS_PLATFORM_CREDENTIAL }}
-      TF_VAR_ios_platform_principal: ${{ secrets.IOS_PLATFORM_PRINCIPAL }}
+    #env:
+     # TF_VAR_ios_platform_credential: ${{ secrets.IOS_PLATFORM_CREDENTIAL }}
+     # TF_VAR_ios_platform_principal: ${{ secrets.IOS_PLATFORM_PRINCIPAL }}
 
     steps:
       - uses: hashicorp/setup-terraform@v1
@@ -58,17 +58,11 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE }}
           aws-region: ${{ env.REGION }}
 
-      - name: Configure aws credential profile
-        run: |
-          aws configure set default.region ${{ env.REGION }}
-          aws configure set default.aws_access_key_id ${{ env.AWS_ACCESS_KEY_ID }}
-          aws configure set default.aws_secret_access_key ${{ env.AWS_SECRET_ACCESS_KEY }}
-
       - name: Configure aws credential profile for reporting
-        run: |
-          aws configure set aws_access_key_id ${{ env.REPORTING_AWS_ACCESS_KEY_ID }} --profile ${{ env.AWS_PROFILE }}
-          aws configure set aws_secret_access_key ${{ env.REPORTING_AWS_SECRET_ACCESS_KEY }} --profile ${{ env.AWS_PROFILE }}
-          aws configure set reporting.region ${{ env.REGION }}
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_reporting }}
+          aws-region: ${{ env.REGION }}
 
       - run: aws configure list-profiles
 
