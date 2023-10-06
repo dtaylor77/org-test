@@ -11,6 +11,13 @@ variable "account_name" {
 variable "vpc_id" {
   description = "The ID of the VPC"
 }
+variable "reporting-vpc-id" {
+  description = "reporting account vpc id"
+  type        = map(any)
+  default = {
+    dev     = "vpc-097a5e37ff57a6466"
+  }
+}
 
 #variable "bucket_name" {
 #  description = "The name of the new environment specific bucket to be created"
