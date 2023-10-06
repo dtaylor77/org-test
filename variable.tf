@@ -19,6 +19,10 @@ variable "reporting-vpc-id" {
   }
 }
 
+variable "reporting_accountId" {
+  description = "This is a reporting account ID"
+}
+
 #variable "bucket_name" {
 #  description = "The name of the new environment specific bucket to be created"
 #}
