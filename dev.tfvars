@@ -1,7 +1,7 @@
 environment         = "dev"
 aws_profile         = "project-DEV"
 account_id          = "199660179115"
-reporting_accountId = 530265417107
+reporting_accountId = "530265417107"
 vpc_id              = "vpc-08212d355e511403e"
 account_name        = "Dhaval3"
 #s3_bucket           = "terraform-cloudtrail-bucket-dev"
