@@ -59,10 +59,16 @@ jobs:
           aws-region: ${{ env.REGION }}
 
       - name: Configure aws credential profile for reporting
-        run: |
-          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID_REPORTING }} --profile ${{ env.AWS_PROFILE }}
-          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY_REPORTING }} --profile ${{ env.AWS_PROFILE }}
-          aws configure set reporting.region ${{ env.REGION }}
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::530265417107:role/Role-for-Dhaval3-account
+          aws-region: ${{ env.REGION }}
+
+     # - name: Configure aws credential profile for reporting
+     #   run: |
+     #     aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID_REPORTING }} --profile ${{ env.AWS_PROFILE }}
+     #     aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY_REPORTING }} --profile ${{ env.AWS_PROFILE }}
+     #     aws configure set reporting.region ${{ env.REGION }}
 
       - run: aws configure list-profiles
 
