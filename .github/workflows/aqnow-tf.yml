@@ -71,17 +71,18 @@ jobs:
           ROLE_ARN: arn:aws:iam::530265417107:role/Role-for-Dhaval3-account
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          aws sts assume-role --role-arn arn:aws:iam::530265417107:role/Role-for-Dhaval3-account --role-session-name GitHubActions --external-id GitHubActions --duration-seconds 900 --query 'Credentials.[AccessKeyId,SecretAccessKey,SessionToken]' --output json > aws-credentials.json
-          echo "::set-output name=AWS_ACCESS_KEY_ID::$(jq -r .[0] aws-credentials.json)"
-          echo "::set-output name=AWS_SECRET_ACCESS_KEY::$(jq -r .[1] aws-credentials.json)"
-          echo "::set-output name=AWS_SESSION_TOKEN::$(jq -r .[2] aws-credentials.json)"
+          aws sts assume-role --role-arn arn:aws:iam::530265417107:role/Role-for-Dhaval3-account --role-session-name GitHubActions
+      #    aws sts assume-role --role-arn arn:aws:iam::530265417107:role/Role-for-Dhaval3-account --role-session-name GitHubActions --external-id GitHubActions --duration-seconds 900 --query 'Credentials.[AccessKeyId,SecretAccessKey,SessionToken]' --output json > aws-credentials.json
+      #     echo "::set-output name=AWS_ACCESS_KEY_ID::$(jq -r .[0] aws-credentials.json)"
+      #     echo "::set-output name=AWS_SECRET_ACCESS_KEY::$(jq -r .[1] aws-credentials.json)"
+      #     echo "::set-output name=AWS_SESSION_TOKEN::$(jq -r .[2] aws-credentials.json)"
 
-      - name: Configure AWS CLI
-        run: |
-          aws configure set aws_access_key_id ${{ steps.assume-role.outputs.AWS_ACCESS_KEY_ID }}
-          aws configure set aws_secret_access_key ${{ steps.assume-role.outputs.AWS_SECRET_ACCESS_KEY }}
-          aws configure set aws_session_token ${{ steps.assume-role.outputs.AWS_SESSION_TOKEN }}
-          aws configure set default.region us-east-1
+      # - name: Configure AWS CLI
+      #   run: |
+      #     aws configure set aws_access_key_id ${{ steps.assume-role.outputs.AWS_ACCESS_KEY_ID }}
+      #     aws configure set aws_secret_access_key ${{ steps.assume-role.outputs.AWS_SECRET_ACCESS_KEY }}
+      #     aws configure set aws_session_token ${{ steps.assume-role.outputs.AWS_SESSION_TOKEN }}
+      #     aws configure set default.region us-east-1
 
     
      # - name: Configure aws credential profile for reporting
