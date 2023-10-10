@@ -58,27 +58,30 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE }}
           aws-region: ${{ env.REGION }}
         
-      - name: Configure aws credential profile for reporting
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: arn:aws:iam::530265417107:role/Role-for-Dhaval3-account
-          aws-region: ${{ env.REGION }}
-          output-credentials: true
+      # - name: Configure aws credential profile for reporting
+      #   uses: aws-actions/configure-aws-credentials@v4
+      #   with:
+      #     role-to-assume: arn:aws:iam::530265417107:role/Role-for-Dhaval3-account
+      #     aws-region: ${{ env.REGION }}
+      #     output-credentials: true
 
-      - name: get caller identity 1
+      - name: Get Temporary AWS Credentials.Configure aws credential profile for reporting
+        id: assume-role
+        env:
+          ROLE_ARN: arn:aws:iam::530265417107:role/Role-for-Dhaval3-account
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          aws sts get-caller-identity
-      - name: Configure AWS Credentials 2
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-region: ${{ env.REGION }}
-          aws-access-key-id: ${{ steps.creds.outputs.aws-access-key-id }}
-          aws-secret-access-key: ${{ steps.creds.outputs.aws-secret-access-key }}
-          aws-session-token: ${{ steps.creds.outputs.aws-session-token }}
-          role-to-assume: arn:aws:iam::123456789100:role/my-other-github-actions-role
-      - name: get caller identity2
+          aws sts assume-role --role-arn arn:aws:iam::530265417107:role/Role-for-Dhaval3-account --role-session-name GitHubActions --external-id GitHubActions --duration-seconds 900 --query 'Credentials.[AccessKeyId,SecretAccessKey,SessionToken]' --output json > aws-credentials.json
+          echo "::set-output name=AWS_ACCESS_KEY_ID::$(jq -r .[0] aws-credentials.json)"
+          echo "::set-output name=AWS_SECRET_ACCESS_KEY::$(jq -r .[1] aws-credentials.json)"
+          echo "::set-output name=AWS_SESSION_TOKEN::$(jq -r .[2] aws-credentials.json)"
+
+      - name: Configure AWS CLI
         run: |
-          aws sts get-caller-identity
+          aws configure set aws_access_key_id ${{ steps.assume-role.outputs.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ steps.assume-role.outputs.AWS_SECRET_ACCESS_KEY }}
+          aws configure set aws_session_token ${{ steps.assume-role.outputs.AWS_SESSION_TOKEN }}
+          aws configure set default.region us-east-1
 
     
      # - name: Configure aws credential profile for reporting
