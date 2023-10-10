@@ -57,13 +57,30 @@ jobs:
         with:
           role-to-assume: ${{ secrets.AWS_ROLE }}
           aws-region: ${{ env.REGION }}
-
+        
       - name: Configure aws credential profile for reporting
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::530265417107:role/Role-for-Dhaval3-account
           aws-region: ${{ env.REGION }}
+          output-credentials: true
 
+      - name: get caller identity 1
+        run: |
+          aws sts get-caller-identity
+      - name: Configure AWS Credentials 2
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ${{ env.REGION }}
+          aws-access-key-id: ${{ steps.creds.outputs.aws-access-key-id }}
+          aws-secret-access-key: ${{ steps.creds.outputs.aws-secret-access-key }}
+          aws-session-token: ${{ steps.creds.outputs.aws-session-token }}
+          role-to-assume: arn:aws:iam::123456789100:role/my-other-github-actions-role
+      - name: get caller identity2
+        run: |
+          aws sts get-caller-identity
+
+    
      # - name: Configure aws credential profile for reporting
      #   run: |
      #     aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID_REPORTING }} --profile ${{ env.AWS_PROFILE }}
