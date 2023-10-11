@@ -45,15 +45,15 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_REPORTING }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_REPORTING }}
           aws-region: us-east-1
 
       - name: Configure aws credential profile
         run: |
           aws configure set default.region us-east-1
-          aws configure set default.aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws configure set default.aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set default.aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID_REPORTING }}
+          aws configure set default.aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY_REPORTING }}
 
       - name: Terraform init
         id: init
