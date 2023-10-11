@@ -1,8 +1,10 @@
 provider "aws" {
   region  = var.region
-  profile = var.aws_profile
 }
 
+resource "aws_s3_bucket" "terraform_remote_state" {
+  bucket  = var.bucket_name
+}
 
 # resource "aws_inspector2_enabler" "activate-inspector" {
 #   account_ids    = ["199660179115"]
