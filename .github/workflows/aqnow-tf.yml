@@ -52,11 +52,17 @@ jobs:
         id: fmt
         run: terraform fmt -check
 
-      - name: configure aws credentials
+      - name: configure aws credentials for Dhaval3
         uses: aws-actions/configure-aws-credentials@v2
         with:
           role-to-assume: ${{ secrets.AWS_ROLE }}
           aws-region: ${{ env.REGION }}
+
+      - name: configure aws credentials for Reporting
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_REPORTING }}
+          aws-region: ${{ env.REGION }}     
         
       # - name: Configure aws credential profile for reporting
       #   uses: aws-actions/configure-aws-credentials@v4
