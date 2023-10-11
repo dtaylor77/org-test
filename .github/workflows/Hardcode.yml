@@ -11,7 +11,7 @@ on:
 #   terraform:
 #     name: Terraform plan & apply
 #     runs-on: ubuntu-latest
-#     environment: DEV
+ #     environment: DEV
 #     env:
 #       TF_VAR_CI: "true"
 permissions:
@@ -21,6 +21,7 @@ permissions:
 env:
   TF_LOG: INFO
   AWS_REGION: ${{ secrets.AWS_REGION }}
+  STAGE: DEV
 jobs:
   deploy:
     runs-on: ubuntu-latest
