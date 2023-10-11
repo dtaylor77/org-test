@@ -12,7 +12,7 @@ variable "vpc_id" {
   description = "The ID of the VPC"
 }
 variable "reporting-vpc-id" {
-  description = "reporting account vpc id"
+  description = "reporting account vpc id."
   type        = map(any)
   default = {
     dev = "vpc-097a5e37ff57a6466"
