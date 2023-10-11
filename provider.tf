@@ -6,7 +6,7 @@ provider "aws" {
 terraform {
   backend "s3" {
     encrypt = true
-    bucket  = "dhaval-aquanow-test-tf-state-file-bucket"
+    bucket  = "dhaval-aquanow-test-tf-state-file-bucket-niki"
     key     = "security/terraform.tfstate"
     region  = "us-east-1"
   }
