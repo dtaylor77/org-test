@@ -9,7 +9,7 @@ permissions:
   
 env:
   AWS_PROFILE: project-DEV
-  STAGE: DEV
+#  STAGE: DEV
   REGION: us-east-1
 
 on:
@@ -25,7 +25,7 @@ jobs:
   deploy:
     name: "Deploy artifacts"
     runs-on: ubuntu-latest
-   # environment: DEV
+    environment: DEV
     if: success() && github.ref == 'refs/heads/main'
 
     steps:
