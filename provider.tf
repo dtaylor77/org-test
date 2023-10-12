@@ -5,7 +5,10 @@ provider "aws" {
 
 terraform {
   backend "s3" {
-    encrypt = true"
+    encrypt = true
+    bucket  = "dhaval-aquanow-test-tf-state-file-bucket"
+    key     = "security/terraform.tfstate"
+    region  = "us-east-1"
   }
 }
 
