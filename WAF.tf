@@ -1,6 +1,6 @@
 resource "aws_wafv2_web_acl" "web_acl_cloudfront" {
   name        = "${var.environment}-cloudfront"
-  description = "aws waf managed rule."
+  description = "aws waf managed rule to protect webapp."
   scope       = "CLOUDFRONT"
 
   default_action {
