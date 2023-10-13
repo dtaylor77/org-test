@@ -51,4 +51,4 @@ resource "aws_wafv2_web_acl" "web_acl_cloudfront" {
     metric_name                = "friendly-metric-name"
     sampled_requests_enabled   = false
   }
-}  
+}
