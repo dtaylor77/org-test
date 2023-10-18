@@ -24,6 +24,7 @@ on:
 jobs:
   terraform:
     name: Terraform plan & apply
+    permissions: write-all
     runs-on: ubuntu-latest
     environment: DEV
     #env:
