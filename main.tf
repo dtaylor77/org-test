@@ -36,7 +36,7 @@ resource "aws_ce_anomaly_subscription" "test" {
 
   monitor_arn_list = [
     aws_ce_anomaly_monitor.service_monitor1.arn,
-    aws_ce_anomaly_monitor.monitor2.arn,
+    aws_ce_anomaly_monitor.monitor2.arn
   ]
 
   subscriber {
