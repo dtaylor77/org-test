@@ -32,4 +32,3 @@ resource "aws_ce_anomaly_subscription" "test" {
     }
   }
 }
-}
