@@ -22,12 +22,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  print-token:
-    permissions: write-all
-    name: print-token
-    runs-on: ubuntu-latest
   terraform:
     name: Terraform plan & apply
+    permissions: write-all
     runs-on: ubuntu-latest
     environment: DEV
     #env:
