@@ -5,19 +5,38 @@
 #   }
 # }
 
-resource "aws_ce_anomaly_monitor" "service_monitor" {
-  name              = "AWSServiceMonitor"
+resource "aws_ce_anomaly_monitor" "service_monitor1" {
+  name              = "AWSServiceMonitor1"
   monitor_type      = "DIMENSIONAL"
   monitor_dimension = "SERVICE"
 }
 
+resource "aws_ce_anomaly_monitor" "monitor2" {
+  name         = "Monitor2"
+  monitor_type = "CUSTOM"
+  monitor_specification = jsonencode(
+    {
+      "And" : null,
+      "CostCategories" : null,
+      "Dimensions" : {
+        "Key" : "LINKED_ACCOUNT",
+        "Values" : ["199660179115, 530265417107"],
+        "MatchOptions" : ["EQUALS"]
+      },
+      "Not" : null,
+      "Or" : null,
+      "Tags" : null
+  })
+
+}
 
 resource "aws_ce_anomaly_subscription" "test" {
   name      = "DAILYSUBSCRIPTION"
   frequency = "DAILY"
 
   monitor_arn_list = [
-    aws_ce_anomaly_monitor.service_monitor.arn,
+    aws_ce_anomaly_monitor.service_monitor1.arn,
+    aws_ce_anomaly_monitor.monitor2.arn,
   ]
 
   subscriber {
