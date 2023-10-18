@@ -14,7 +14,6 @@ resource "aws_ce_anomaly_monitor" "service_monitor" {
 
 resource "aws_ce_anomaly_subscription" "test" {
   name = "DAILYSUBSCRIPTION"
-  #threshold = 100
   frequency = "DAILY"
 
   monitor_arn_list = [
@@ -25,4 +24,12 @@ resource "aws_ce_anomaly_subscription" "test" {
     type    = "EMAIL"
     address = "dhavaltailor777@gmail.com"
   }
+  threshold_expression {
+    dimension {
+      key           = "ANOMALY_TOTAL_IMPACT_ABSOLUTE"
+      values        = ["1.0"]
+      match_options = ["GREATER_THAN_OR_EQUAL"]
+    }
+  }
+}
 }
