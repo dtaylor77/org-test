@@ -14,7 +14,7 @@ resource "aws_ce_anomaly_monitor" "service_monitor" {
 
 resource "aws_ce_anomaly_subscription" "test" {
   name      = "DAILYSUBSCRIPTION"
-  threshold = 100
+  #threshold = 100
   frequency = "DAILY"
 
   monitor_arn_list = [
