@@ -75,8 +75,8 @@ jobs:
 
       - name: Configure aws credential profile for reporting
         run: |
-          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }} --profile reporting
-          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }} --profile reporting
+          aws configure set aws_access_key_id ${{ env.AWS_ACCESS_KEY_ID }} --profile reporting
+          aws configure set aws_secret_access_key ${{ env.AWS_SECRET_ACCESS_KEY }} --profile reporting
           aws configure set reporting.region us-east-1    
         
       # - name: Configure aws credential profile for reporting
