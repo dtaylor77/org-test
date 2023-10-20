@@ -10,7 +10,7 @@ resource "aws_resourceexplorer2_index" "index-example5" {
 }
 
 resource "aws_resourceexplorer2_view" "view-example5" {
-  name         = "exampleview5"
+  name         = "exampleview7"
   default_view = "true"
 
   included_property {
