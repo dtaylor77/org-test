@@ -10,5 +10,12 @@ resource "aws_resourceexplorer2_index" "index-example" {
 }
 
 resource "aws_resourceexplorer2_view" "view-example" {
-  name = "exampleview"
+  name         = "exampleview"
+  default_view = "true"
+
+  included_property {
+    name = "tags"
+  }
+
+  depends_on = [aws_resourceexplorer2_index.index-example]
 }
