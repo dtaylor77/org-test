@@ -5,17 +5,17 @@
 #   }
 # }
 
-resource "aws_resourceexplorer2_index" "index-example3" {
+resource "aws_resourceexplorer2_index" "index-example5" {
   type = "AGGREGATOR"
 }
 
-resource "aws_resourceexplorer2_view" "view-example3" {
-  name         = "exampleview3"
+resource "aws_resourceexplorer2_view" "view-example5" {
+  name         = "exampleview5"
   default_view = "true"
 
   included_property {
     name = "tags"
   }
 
-  depends_on = [aws_resourceexplorer2_index.index-example3]
+  depends_on = [aws_resourceexplorer2_index.index-example5]
 }
