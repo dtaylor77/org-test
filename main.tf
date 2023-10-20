@@ -6,7 +6,7 @@
 # }
 
 resource "aws_resourceexplorer2_index" "index-example" {
-  type = "LOCAL"
+  type = "AGGREGATOR"
 }
 
 resource "aws_resourceexplorer2_view" "view-example" {
