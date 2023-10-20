@@ -9,8 +9,8 @@ resource "aws_resourceexplorer2_index" "index-example1" {
   type = "AGGREGATOR"
 }
 
-resource "aws_resourceexplorer2_view" "view-example" {
-  name         = "exampleview"
+resource "aws_resourceexplorer2_view" "view-example1" {
+  name         = "exampleview1"
   default_view = "true"
 
   included_property {
