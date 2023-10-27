@@ -20,6 +20,10 @@ resource "aws_wafv2_web_acl" "web_acl_regional" {
         name        = "AWSManagedRulesAnonymousIpList"
         vendor_name = "AWS"
       }
+
+      ip_set_reference_statement {
+        arn = aws_wafv2_ip_set.ip_set_allow.arn
+      }
     }
 
     visibility_config {
