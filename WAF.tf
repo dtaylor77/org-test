@@ -37,7 +37,7 @@ resource "aws_wafv2_web_acl" "web_acl_regional" {
 }
 
 resource "aws_wafv2_ip_set" "ip_set_allow" {
-  name               = "IP Set"
+  name               = "IP-Set"
   description        = "IP set"
   scope              = "REGIONAL"
   ip_address_version = "IPV4"
