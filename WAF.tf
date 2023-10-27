@@ -1,42 +1,33 @@
-# resource "aws_wafv2_web_acl" "web_acl_cloudfront" {
-#   name        = "${var.environment}-cloudfront"
+# resource "aws_wafv2_web_acl" "web_acl_regional" {
+#   name        = "${var.environment}-regional"
 #   description = "aws waf managed rule to protect webapp."
-#   scope       = "CLOUDFRONT"
+#   scope       = "REGIONAL"
 
 #   default_action {
 #     allow {}
 #   }
 
-#   rule {
-#     name     = "AWS-AWSManagedRulesCommonRuleSet"
-#     priority = 1
+rule {
+    name     = "AWS-AWSManagedRulesAnonymousIpList"
+    priority = 6
 
-#     override_action {
-#       none {}
-#     }
+    override_action {
+      count {}
+    }
 
-#     statement {
-#       managed_rule_group_statement {
-#         name        = "AWSManagedRulesCommonRuleSet"
-#         vendor_name = "AWS"
+    statement {
+      managed_rule_group_statement {
+        name        = "AWSManagedRulesAnonymousIpList"
+        vendor_name = "AWS"
+      }
+    }
 
-#         rule_action_override {
-#           action_to_use {
-#             count {}
-#           }
-
-#           name = "NoUserAgent_HEADER"
-#         }
-
-#       }
-
-#     }
-
-#     visibility_config {
-#       cloudwatch_metrics_enabled = false
-#       metric_name                = "AWSManagedRulesATPRuleSet"
-#       sampled_requests_enabled   = false
-#     }
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      metric_name                = "AWS-AWSManagedRulesAnonymousIpList"
+      sampled_requests_enabled   = true
+    }
+  }
 
 #   }
 
