@@ -35,5 +35,5 @@ resource "aws_iam_policy" "iam-policy" {
 
 resource "aws_kms_key_policy" "key-policy" {
   key_id = aws_kms_key.cloudtrail-key.id
-  policy = aws_iam_policy.iam-policy.json
+  policy = aws_iam_policy.iam-policy.id
 }
