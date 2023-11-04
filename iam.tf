@@ -2,11 +2,6 @@ data "aws_iam_policy_document" "policy-doc" {
   statement {
     effect = "Allow"
 
-    principals {
-      type        = "Service"
-      identifiers = ["cloudtrail.amazonaws.com"]
-    }
-
     resources = ["*"]
 
     condition {
