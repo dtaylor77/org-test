@@ -17,7 +17,7 @@ data "aws_iam_policy_document" "policy-doc" {
     }
 
     actions = [
-      "GenerateDataKey*",
+      "kms:GenerateDataKey*",
     "kms:Decrypt", ]
   }
 }
