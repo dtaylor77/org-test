@@ -5,7 +5,7 @@ resource "aws_kms_key" "cloudtrail-key" {
 }
 
 resource "aws_kms_alias" "kms-alias" {
-  name          = "cloudtrail-key"
+  name          = "alias/cloudtrail-key"
   target_key_id = aws_kms_key.cloudtrail-key.key_id
 }
 
