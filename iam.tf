@@ -6,11 +6,11 @@ data "aws_iam_policy_document" "policy-doc" {
       type        = "Service"
       identifiers = ["cloudtrail.amazonaws.com"]
     }
-    resources = ["*"]
-
     actions = [
       "kms:GenerateDataKey*",
-    "kms:Decrypt", ]
+      "kms:Decrypt",
+    ]
+    resources = ["*"]
   }
 }
 
