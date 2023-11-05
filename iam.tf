@@ -44,5 +44,15 @@ data "aws_iam_policy_document" "policy-KMS" {
       identifiers = ["cloudtrail.amazonaws.com"]
 
     }
+    condition {
+      test     = "StringEquals"
+      variable = "aws:SourceArn"
+      values   = ["arn:aws:cloudtrail:us-east-1:530265417107:trail/niki-trail"]
+    }
+    condition {
+      test     = "StringLike"
+      variable = "kms:EncryptionContext:aws:cloudtrail:arn"
+      values   = ["arn:aws:cloudtrail:us-east-1:530265417107:trail/niki-trail/*"]
+    }
   }
 }
