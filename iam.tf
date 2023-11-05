@@ -17,44 +17,32 @@
 # }
 
 
-# resource "aws_kms_key_policy" "key-policy" {
-#   key_id = aws_kms_key.cloudtrail-key.id
-#   policy = data.aws_iam_policy_document.policy-doc.json
-# }
-
-resource "aws_iam_role" "test-role-tf" {
-  name               = "test-role-tf"
-  assume_role_policy = data.aws_iam_policy_document.instance_assume_role_policy.json
-
+resource "aws_kms_key_policy" "key-policy" {
+  key_id = aws_kms_key.cloudtrail-key.id
+  policy = data.aws_iam_policy_document.policy-KMS.json
 }
 
-data "aws_iam_policy_document" "instance_assume_role_policy" {
-  statement {
-    actions = ["sts:AssumeRole"]
 
-    principals {
-      type        = "Service"
-      identifiers = ["ec2.amazonaws.com"]
+data "aws_iam_policy_document" "policy-KMS" {
+  statement {
+    sid = "1"
+    effect    = "Allow"
+    actions   = ["KMS:*"]
+    resources = ["*"]
+        principals {
+      type        = "AWS"
+      identifiers = ["arn:aws:iam::199660179115:root"]
     }
   }
-}
-
-data "aws_iam_policy_document" "policy-ec2" {
   statement {
-    effect    = "Allow"
-    actions   = ["ec2:Describe*"]
-    resources = ["*"]
+    sid = "2"
+    effect = "Allow"
+    actions = [ "KMS:GenerateDataKey*", "kms:Decrypt*" ]
+    resources = [ "*" ]
+    principals {
+      type = "Service"
+      identifiers = ["cloudtrail.amazonaws.com"]
+      
+    }
   }
-}
-
-
-resource "aws_iam_policy" "policy" {
-  name        = "test-policy"
-  description = "A test policy"
-  policy      = data.aws_iam_policy_document.policy-ec2.json
-}
-
-resource "aws_iam_role_policy_attachment" "test-attach" {
-  role       = aws_iam_role.test-role-tf.name
-  policy_arn = aws_iam_policy.policy.arn
 }
