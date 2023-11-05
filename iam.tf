@@ -4,14 +4,16 @@ data "aws_iam_policy_document" "policy-doc" {
     effect = "Allow"
     principals {
       type        = "Service"
-      identifiers = ["cloudtrail.amazonaws.com"]
+      identifiers = ["cloudtrail.amazonaws.com", "kms.amazonaws.com"]
     }
     actions = [
       "kms:GenerateDataKey*",
       "kms:Decrypt",
+      "kms:PutKeyPolicy"
     ]
     resources = ["*"]
   }
+
 }
 
 
