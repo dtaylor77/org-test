@@ -10,7 +10,7 @@ data "aws_iam_policy_document" "policy-doc" {
       "kms:GenerateDataKey*",
       "kms:Decrypt",
     ]
-    resources = "*"
+    resources = ["*"]
   }
 }
 
