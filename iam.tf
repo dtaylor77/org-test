@@ -25,24 +25,24 @@ resource "aws_kms_key_policy" "key-policy" {
 
 data "aws_iam_policy_document" "policy-KMS" {
   statement {
-    sid = "1"
+    sid       = "1"
     effect    = "Allow"
     actions   = ["KMS:*"]
     resources = ["*"]
-        principals {
+    principals {
       type        = "AWS"
       identifiers = ["arn:aws:iam::199660179115:root"]
     }
   }
   statement {
-    sid = "2"
-    effect = "Allow"
-    actions = [ "KMS:GenerateDataKey*", "kms:Decrypt*" ]
-    resources = [ "*" ]
+    sid       = "2"
+    effect    = "Allow"
+    actions   = ["KMS:GenerateDataKey*", "kms:Decrypt*"]
+    resources = ["*"]
     principals {
-      type = "Service"
+      type        = "Service"
       identifiers = ["cloudtrail.amazonaws.com"]
-      
+
     }
   }
 }
