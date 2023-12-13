@@ -1,13 +1,13 @@
-resource "aws_kms_key" "cloudtrail-key" {
-  description             = "Cloudtrail log encryption"
-  deletion_window_in_days = 7
-  key_usage               = "ENCRYPT_DECRYPT"
-}
+# resource "aws_kms_key" "cloudtrail-key" {
+#   description             = "Cloudtrail log encryption"
+#   deletion_window_in_days = 7
+#   key_usage               = "ENCRYPT_DECRYPT"
+# }
 
-resource "aws_kms_alias" "kms-alias" {
-  name          = "alias/cloudtrail-key"
-  target_key_id = aws_kms_key.cloudtrail-key.key_id
-}
+# resource "aws_kms_alias" "kms-alias" {
+#   name          = "alias/cloudtrail-key"
+#   target_key_id = aws_kms_key.cloudtrail-key.key_id
+# }
 
 # resource "aws_kms_key_policy" "kms-key-policy" {
 #   key_id = aws_kms_key.cloudtrail-key.id
