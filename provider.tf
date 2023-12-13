@@ -14,20 +14,20 @@ terraform {
 
 provider "aws" {
   region = "us-east-1"
-  alias = "niki"
+  alias  = "niki"
 
   assume_role {
     role_arn     = "arn:aws:iam::530265417107:role/provider-assume-role-test"
     session_name = "SESSION"
     external_id  = "12345"
   }
-  
+
 }
 
 terraform {
   required_providers {
     aws = {
-      source = "hashicorp/aws"
+      source  = "hashicorp/aws"
       version = "5.30.0"
     }
   }
