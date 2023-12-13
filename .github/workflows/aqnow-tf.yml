@@ -65,19 +65,19 @@ jobs:
           aws configure set default.aws_access_key_id ${{ env.AWS_ACCESS_KEY_ID }}
           aws configure set default.aws_secret_access_key ${{ env.AWS_SECRET_ACCESS_KEY }}    
 
-      - name: Get Temporary AWS Credentials.Configure aws credential profile for reporting
-        id: assume-role
-        env:
-          ROLE_ARN: arn:aws:iam::530265417107:role/Role-for-Dhaval3-account
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          aws sts assume-role --role-arn arn:aws:iam::530265417107:role/Role-for-Dhaval3-account --role-session-name GitHubActions    
+      # - name: Get Temporary AWS Credentials.Configure aws credential profile for reporting
+      #   id: assume-role
+      #   env:
+      #     ROLE_ARN: arn:aws:iam::530265417107:role/Role-for-Dhaval3-account
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   run: |
+      #     aws sts assume-role --role-arn arn:aws:iam::530265417107:role/Role-for-Dhaval3-account --role-session-name GitHubActions    
 
-      - name: Configure aws credential profile for reporting
-        run: |
-          aws configure set aws_access_key_id ${{ env.AWS_ACCESS_KEY_ID }} --profile reporting
-          aws configure set aws_secret_access_key ${{ env.AWS_SECRET_ACCESS_KEY }} --profile reporting
-          aws configure set reporting.region us-east-1    
+      # - name: Configure aws credential profile for reporting
+      #   run: |
+      #     aws configure set aws_access_key_id ${{ env.AWS_ACCESS_KEY_ID }} --profile reporting
+      #     aws configure set aws_secret_access_key ${{ env.AWS_SECRET_ACCESS_KEY }} --profile reporting
+      #     aws configure set reporting.region us-east-1    
         
       # - name: Configure aws credential profile for reporting
       #   uses: aws-actions/configure-aws-credentials@v4
