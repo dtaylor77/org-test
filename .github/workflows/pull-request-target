@@ -1,0 +1,30 @@
+name: pull-request-target
+
+on:
+  pull_request_target:
+permissions:
+  contents: read
+  pull-requests: write
+jobs:
+  preflight-job:
+    name: Preflight Step
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # Example 3
+      - name: Get all .github chnages
+        id: changed-files-yaml
+        uses: tj-actions/changed-files@v40
+        with:
+          files_yaml: |
+            github:
+              - .github/**
+
+      - name: fail step if test file(s) change
+        # NOTE: Ensure all outputs are prefixed by the same key used above e.g. `test_(...)` | `doc_(...)` | `src_(...)` when trying to access the `any_changed` output.
+        if: steps.changed-files-yaml.outputs.test_any_changed == 'true'  
+        uses: actions/github-script@v3
+        with:
+          script: |
+            core.setFailed('.github files chnaged')
+      - uses: kentaro-m/auto-assign-action@v1.2.5
